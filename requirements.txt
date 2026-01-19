@@ -1,8 +1,8 @@
 pandas
 numpy
 scikit-learn
-xgboost
 flask
 gunicorn
 pydantic
-requestsxgboost
+requests
+xgboost
