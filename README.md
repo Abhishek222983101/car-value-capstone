@@ -122,9 +122,10 @@ python tests/test_local.py
 ```json
 {
   "model": "xgboost_tuned",
-  "predicted_price_usd": 42707.7,
-  "status": "success"
+  "predicted_price_usd": 1.7914128732681274
 }
+
+Note: The model currently returns the log-transformed price. To interpret this as USD, the inverse transformation (np.expm1) would normally be applied.
 ```
 
 ![Local Docker Proof](images/docker_test.png)
