@@ -1,9 +1,9 @@
 import pickle
 import numpy as np
-import xgboost as xgb
 from flask import Flask, request, jsonify
 
-input_file = 'models/model.bin' 
+# Keep the path fix
+input_file = 'models/model.bin'
 
 with open(input_file, 'rb') as f_in:
     dv, model = pickle.load(f_in)
@@ -14,6 +14,7 @@ app = Flask('car-price')
 def predict():
     car = request.get_json()
 
+    # Normalize input
     car_normalized = {}
     for key, value in car.items():
         if isinstance(value, str):
@@ -21,17 +22,13 @@ def predict():
         else:
             car_normalized[key] = value
 
-    # 1. Transform input to matrix
+    # --- THE SAFE FIX ---
+    # No DMatrix. No xgboost import. Just simple transform.
     X = dv.transform([car_normalized])
-    
-    # 2. Create DMatrix (Simplified Fix)
-    # We removed 'feature_names' to prevent version errors. 
-    # The model will predict based on column order, which dv.transform preserves.
-    dX = xgb.DMatrix(X)
+    y_pred = model.predict(X)
 
-    # 3. Predict
-    y_pred = model.predict(dX)
-    
+    # --- THE MONEY FIX ---
+    # Apply the math fix to the safe prediction
     actual_price = np.expm1(y_pred)
 
     result = {
