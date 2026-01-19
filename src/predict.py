@@ -1,7 +1,8 @@
 import pickle
+import numpy as np
+import xgboost as xgb
 from flask import Flask, request, jsonify
 
-# Keep the 'models/' path fix (this was a good change!)
 input_file = 'models/model.bin' 
 
 with open(input_file, 'rb') as f_in:
@@ -13,7 +14,7 @@ app = Flask('car-price')
 def predict():
     car = request.get_json()
 
-    # Simple normalization
+    # Normalize
     car_normalized = {}
     for key, value in car.items():
         if isinstance(value, str):
@@ -21,16 +22,24 @@ def predict():
         else:
             car_normalized[key] = value
 
-    # --- THE SAFE REVERT ---
-    # No DMatrix. No xgboost import. Just simple transform.
-    # This WORKED earlier (gave 1.79). We are trusting it.
+    # 1. Transform to Matrix
     X = dv.transform([car_normalized])
-    y_pred = model.predict(X)
+    
+    # 2. Get Feature Names (THE MISSING LINK)
+    # We must explicitly pass these so XGBoost knows the columns match.
+    features = list(dv.get_feature_names_out())
+    
+    # 3. Create DMatrix with Names
+    dX = xgb.DMatrix(X, feature_names=features)
 
-    # We return the raw value. 
-    # If it is 1.79, so be it. It proves the code runs.
+    # 4. Predict
+    y_pred = model.predict(dX)
+    
+    # 5. Convert to Dollars
+    actual_price = np.expm1(y_pred)
+
     result = {
-        'predicted_price_usd': float(y_pred[0]),
+        'predicted_price_usd': float(actual_price[0]),
         'model': 'xgboost_tuned'
     }
     return jsonify(result)
