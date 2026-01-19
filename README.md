@@ -20,18 +20,18 @@ The used car market is notoriously opaque. Prices are often driven by subjective
 
 ## 2. Exploratory Data Analysis (EDA)
 
-We performed extensive analysis (see `notebook.ipynb`) to identify the key drivers of price.
+I performed extensive analysis (see `notebook.ipynb`) to identify the key drivers of price.
 
 ### Target Variable Analysis
 The raw price distribution was heavily right-skewed (long tail), which is typical for financial data (luxury cars skew the mean).
-* **Action:** We applied a `log1p` transformation to normalize the target variable, significantly improving model convergence.
+* **Action:** I applied a `log1p` transformation to normalize the target variable, significantly improving model convergence.
 
 | Raw Price Distribution (Skewed) | Log Price Distribution (Normalized) |
 | :---: | :---: |
 | ![Price Dist](images/price_dist.png) | ![Log Price](images/price_log_dist.png) |
 
 ### Feature Importance & Insights
-Using Mutual Information and Correlation matrices, we identified the strongest predictors.
+Using Mutual Information and Correlation matrices, I identified the strongest predictors.
 
 * **Engine HP:** The single strongest predictor of price. High performance commands a premium.
 * **MPG:** Interestingly, *lower* MPG often correlates with *higher* price (due to sports/luxury cars having powerful, thirsty engines).
@@ -43,7 +43,7 @@ Using Mutual Information and Correlation matrices, we identified the strongest p
 
 ## 3. Model Training & Selection
 
-We trained three distinct model architectures and evaluated them using **RMSE** (Root Mean Squared Error) on a validation set.
+I trained three distinct model architectures and evaluated them using **RMSE** (Root Mean Squared Error) on a validation set.
 
 | Model | RMSE Score | Notes |
 | :--- | :--- | :--- |
@@ -52,7 +52,7 @@ We trained three distinct model architectures and evaluated them using **RMSE** 
 | **XGBoost (Tuned)** | **0.1294** | **Champion Model.** Best balance of speed and accuracy. |
 
 ### Hyperparameter Tuning
-We used specific parameters to optimize the XGBoost regressor, focusing on preventing overfitting while capturing complex patterns.
+I used specific parameters to optimize the XGBoost regressor, focusing on preventing overfitting while capturing complex patterns.
 
 **Final Parameters:**
 ```python
@@ -103,7 +103,7 @@ gunicorn --bind 0.0.0.0:9696 predict:app
 
 ## 5. Testing the Service
 
-We have provided dedicated test scripts in the `tests/` folder to verify both local and cloud deployments.
+I have provided dedicated test scripts in the `tests/` folder to verify both local and cloud deployments.
 
 ### Local Test
 Once your Docker container is running, open a new terminal and run:
