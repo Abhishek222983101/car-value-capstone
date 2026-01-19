@@ -5,9 +5,11 @@
 ![XGBoost](https://img.shields.io/badge/ML-XGBoost-orange)
 ![Render](https://img.shields.io/badge/Deployment-Live-green)
 
-**CarValue AI** is an end-to-end Machine Learning service designed to predict the fair market value (MSRP) of used vehicles. By analyzing technical specifications—such as engine power, MPG, and age—the model provides an objective baseline for pricing, helping sellers set fair prices and buyers avoid overpaying.
+### ML Zoomcamp Capstone 2
 
-**Live Service URL:** `https://car-value-capstone.onrender.com/predict`
+**CarValue AI** is an end-to-end Machine Learning service designed to predict the fair market value (MSRP) of used vehicles. By analyzing technical specifications such as engine power, MPG, and age the model provides an objective baseline for pricing, helping sellers set fair prices and buyers avoid overpaying.
+
+**API Endpoint (POST):** `https://car-value-capstone.onrender.com/predict`
 
 ---
 
@@ -20,7 +22,7 @@ The used car market is notoriously opaque. Prices are often driven by subjective
 
 ## 2. Exploratory Data Analysis (EDA)
 
-I performed extensive analysis (see `notebook.ipynb`) to identify the key drivers of price.
+I have performed extensive analysis (see `notebook.ipynb`) to identify the key drivers of price.
 
 ### Target Variable Analysis
 The raw price distribution was heavily right-skewed (long tail), which is typical for financial data (luxury cars skew the mean).
@@ -153,3 +155,8 @@ curl -X POST https://car-value-capstone.onrender.com/predict \
      -H "Content-Type: application/json" \
      -d '{"make": "bmw", "model": "3_series", "year": 2018, "engine_hp": 248.0, "engine_cylinders": 4.0, "transmission_type": "automatic", "vehicle_style": "sedan", "highway_mpg": 34, "city_mpg": 23}'
 ```
+---
+
+## 👨‍💻 Author
+**Abhishek222983101**
+*| ML Zoomcamp Capstone | 2025-26*
