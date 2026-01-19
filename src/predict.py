@@ -1,8 +1,8 @@
 import pickle
 import numpy as np
+import xgboost as xgb  # <--- NEW IMPORT
 from flask import Flask, request, jsonify
 
-# --- FIX: Point to the 'models' folder ---
 input_file = 'models/model.bin' 
 
 with open(input_file, 'rb') as f_in:
@@ -21,8 +21,16 @@ def predict():
         else:
             car_normalized[key] = value
 
+    # 1. Transform to Matrix
     X = dv.transform([car_normalized])
-    y_pred = model.predict(X)
+    
+    # 2. Create DMatrix (THE FIX)
+    # The model crashes without this!
+    features = dv.get_feature_names_out()
+    dX = xgb.DMatrix(X, feature_names=features)
+
+    # 3. Predict using the DMatrix
+    y_pred = model.predict(dX)
     
     actual_price = np.expm1(y_pred)
 
