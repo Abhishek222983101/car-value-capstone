@@ -2,7 +2,8 @@ import pickle
 import numpy as np
 from flask import Flask, request, jsonify
 
-input_file = 'model.bin'
+# --- FIX: Point to the 'models' folder ---
+input_file = 'models/model.bin' 
 
 with open(input_file, 'rb') as f_in:
     dv, model = pickle.load(f_in)
